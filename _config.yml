@@ -1,5 +1,5 @@
 # general configuration
-url: http://excentris.net
+url: http://sakkenix.cloud
 baseurl: ''
 
 # compass configuration
@@ -21,7 +21,7 @@ compass:
   twitter: "compass"
 
 # exclude
-exclude: ["CNAME", "Gemfile", "Gemfile.lock", "LICENSE", "README.md"]
+exclude: ["Gemfile", "Gemfile.lock", "LICENSE", "README.md"]
 
 # Dependencies
 markdown: kramdown
