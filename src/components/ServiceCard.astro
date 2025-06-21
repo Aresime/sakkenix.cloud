@@ -1,0 +1,102 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+const { title, description, icon } = Astro.props;
+---
+
+<div class="service-card">
+  <div class="service-icon">
+    <Fragment set:html={icon} />
+  </div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+</div>
+
+<style>
+  .service-card {
+    background-color: var(--bg-primary);
+    padding: var(--spacing-8);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .service-card.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .service-icon {
+    width: 48px;
+    height: 48px;
+    background-color: var(--primary-color);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-6);
+    color: white;
+  }
+
+  .service-card h3 {
+    margin-bottom: var(--spacing-4);
+    color: var(--text-primary);
+  }
+
+  .service-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 480px) {
+    .service-card {
+      padding: var(--spacing-6);
+    }
+  }
+</style>
+
+<script>
+  // Intersection Observer for animations
+  document.addEventListener('DOMContentLoaded', function() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+        }
+      });
+    }, observerOptions);
+    
+    // Observe this service card
+    const serviceCard = document.querySelector('.service-card');
+    if (serviceCard) {
+      observer.observe(serviceCard);
+    }
+    
+    // Service card hover effects
+    serviceCard.addEventListener('mouseenter', function() {
+      this.style.transform = 'translateY(-8px) scale(1.02)';
+    });
+    
+    serviceCard.addEventListener('mouseleave', function() {
+      this.style.transform = 'translateY(0) scale(1)';
+    });
+  });
+</script> 

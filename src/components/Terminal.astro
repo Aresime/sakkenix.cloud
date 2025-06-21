@@ -1,0 +1,165 @@
+---
+// Terminal component with typing animation
+---
+
+<div class="terminal-window">
+  <div class="terminal-header">
+    <div class="terminal-buttons">
+      <span class="terminal-btn close"></span>
+      <span class="terminal-btn minimize"></span>
+      <span class="terminal-btn maximize"></span>
+    </div>
+    <span class="terminal-title">sakkenix@linux:~$</span>
+  </div>
+  <div class="terminal-content">
+    <div class="terminal-line">
+      <span class="prompt">$</span>
+      <span class="command">systemctl status nginx</span>
+    </div>
+    <div class="terminal-output">
+      ● nginx.service - A high performance web server<br>
+      &nbsp;&nbsp;&nbsp;Loaded: loaded (/lib/systemd/system/nginx.service; enabled)<br>
+      &nbsp;&nbsp;&nbsp;Active: active (running) since Mon 2024-01-15 10:30:00 UTC<br>
+      &nbsp;&nbsp;&nbsp;Status: "nginx is running"
+    </div>
+    <div class="terminal-line">
+      <span class="prompt">$</span>
+      <span class="command">uptime</span>
+    </div>
+    <div class="terminal-output">
+      10:30:15 up 45 days, 2:15, 1 user, load average: 0.12, 0.08, 0.06
+    </div>
+    <div class="terminal-line">
+      <span class="prompt">$</span>
+      <span class="command typing">_</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Terminal Window */
+  .terminal-window {
+    background-color: var(--text-primary);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: var(--font-size-sm);
+  }
+
+  .terminal-header {
+    background-color: #374151;
+    padding: var(--spacing-3) var(--spacing-4);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+  }
+
+  .terminal-buttons {
+    display: flex;
+    gap: var(--spacing-2);
+  }
+
+  .terminal-btn {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #ef4444;
+  }
+
+  .terminal-btn.minimize {
+    background-color: #f59e0b;
+  }
+
+  .terminal-btn.maximize {
+    background-color: #10b981;
+  }
+
+  .terminal-title {
+    color: #9ca3af;
+    font-size: var(--font-size-xs);
+  }
+
+  .terminal-content {
+    padding: var(--spacing-4);
+    color: #e5e7eb;
+    line-height: 1.6;
+  }
+
+  .terminal-line {
+    display: flex;
+    gap: var(--spacing-2);
+    margin-bottom: var(--spacing-2);
+  }
+
+  .prompt {
+    color: #10b981;
+    font-weight: bold;
+  }
+
+  .command {
+    color: #e5e7eb;
+  }
+
+  .terminal-output {
+    color: #9ca3af;
+    margin-bottom: var(--spacing-3);
+    padding-left: var(--spacing-4);
+  }
+
+  .typing {
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+</style>
+
+<script>
+  // Terminal typing animation
+  document.addEventListener('DOMContentLoaded', function() {
+    const typingElement = document.querySelector('.typing');
+    if (typingElement) {
+      const commands = [
+        'systemctl status docker',
+        'docker ps',
+        'free -h',
+        'top'
+      ];
+      
+      let commandIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+      
+      function typeCommand() {
+        const currentCommand = commands[commandIndex];
+        
+        if (isDeleting) {
+          typingElement.textContent = currentCommand.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          typingElement.textContent = currentCommand.substring(0, charIndex + 1);
+          charIndex++;
+        }
+        
+        let typeSpeed = isDeleting ? 50 : 100;
+        
+        if (!isDeleting && charIndex === currentCommand.length) {
+          typeSpeed = 2000; // Pause at end
+          isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          commandIndex = (commandIndex + 1) % commands.length;
+          typeSpeed = 500; // Pause before next command
+        }
+        
+        setTimeout(typeCommand, typeSpeed);
+      }
+      
+      // Start typing animation after a delay
+      setTimeout(typeCommand, 2000);
+    }
+  });
+</script> 
