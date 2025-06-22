@@ -83,19 +83,7 @@ yarn preview
 
 ## 🚀 Deployment
 
-### Vercel (Recommended)
-
-1. **Install Vercel CLI**:
-   ```bash
-   yarn global add vercel
-   ```
-
-2. **Deploy**:
-   ```bash
-   vercel
-   ```
-
-3. **Follow the prompts** to connect your GitHub repository or deploy directly
+Currently the site is deployed with vercel.
 
 ### Alternative: GitHub + Vercel
 

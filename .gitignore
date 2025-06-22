@@ -93,3 +93,4 @@ storybook-static/
 # Cache directories
 .cache/
 .parcel-cache/
+.vercel
